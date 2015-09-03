@@ -157,13 +157,14 @@ call add(s:code_lines, "<td>")
 if g:html_show_line_num
     call add(s:number_lines, "<td>")
 endif
+let s:start_line = s:lnum
 
 while s:lnum <= s:end
 
-    let s:new = "<p style=\" width: 100%; margin: 0px\">"
+    let s:new = "<p style=\" display: inline-block; width: 100%; margin: 0px; font-family: ". s:htmlfont .";\">"
     if g:html_show_line_num
-        call add(s:number_lines, "<p style=\" display: inline-block; text-align: right; padding: 0px; margin: 0px\">")
-        let s:numcol = repeat(' ', s:margin - 1 - strlen(s:lnum)) . s:lnum . ' '
+        call add(s:number_lines, "<p style=\" display: inline-block; text-align: right; margin: 0px; font-family: ". s:htmlfont .";\">")
+        let s:numcol = repeat(' ', s:margin - 1 - strlen(s:lnum)) . (s:lnum - s:start_line + 1) . ' '
     endif
 
     "
@@ -171,6 +172,9 @@ while s:lnum <= s:end
     "
     let s:line = getline(s:lnum)
     let s:len = strlen(s:line)
+    " if s:len == 0
+    "     call add(s:code_lines, s:LeadingSpace)
+    " endif
 
     " Loop over each character in the line
     let s:col = 1
