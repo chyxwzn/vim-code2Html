@@ -1,4 +1,4 @@
-if !has("win32") || !has("gui") || !(exists("g:html_clipboard_exe") && filereadable(g:html_clipboard_exe))
+if !has("win32") || !has("gui")
     finish
 endif
 
@@ -82,7 +82,6 @@ let s:HtmlSpace = '\' . s:LeadingSpace
 " Return HTML valid characters enclosed in a span of class style_name with
 " unprintable characters expanded and double spaces replaced as necessary.
 "
-" TODO: eliminate unneeded logic like done for BuildStyleWrapper
 function! s:HtmlFormat(text, style_id)
     " Replace unprintable characters
     let unformatted = strtrans(a:text)
@@ -123,9 +122,6 @@ endif
 let s:tag_close = '>'
 let s:HtmlEndline = '<br' . s:tag_close
 
-" call extend(s:lines, ["<table>"])
-
-" Now loop over all lines in the original text to convert to html.
 " Use html_start_line and html_end_line if they are set.
 if exists("g:html_start_line")
     let s:lnum = html_start_line
@@ -167,14 +163,8 @@ while s:lnum <= s:end
         let s:numcol = repeat(' ', s:margin - 1 - strlen(s:lnum)) . (s:lnum - s:start_line + 1) . ' '
     endif
 
-    "
-    " A line that is not folded, or doing dynamic folding.
-    "
     let s:line = getline(s:lnum)
     let s:len = strlen(s:line)
-    " if s:len == 0
-    "     call add(s:code_lines, s:LeadingSpace)
-    " endif
 
     " Loop over each character in the line
     let s:col = 1
@@ -214,15 +204,12 @@ while s:lnum <= s:end
         " get the highlight group name to use
         let s:id = synIDtrans(s:id)
 
-        " Output the text with the same synID, with class set to the highlight ID
-        " name, unless it has been concealed completely.
         if strlen(s:expandedtab) > 0
             let s:new = s:new . s:HtmlFormat(s:expandedtab,  s:id)
         endif
     endwhile
     let s:new = s:new . "</p>"
     if g:html_show_line_num
-        " echo s:HtmlFormat(s:numcol,  s:LINENR_ID) . 'n'
         call add(s:number_lines, s:HtmlFormat(s:numcol,  s:LINENR_ID) . "</p>")
     endif
     call extend(s:code_lines, split(s:new, '\n', 1))

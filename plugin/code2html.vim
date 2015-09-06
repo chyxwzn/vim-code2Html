@@ -3,9 +3,6 @@ if exists('g:loaded_code2html_plugin')
 endif
 let g:loaded_code2html_plugin = 1
 
-if !exists("g:html_clipboard_exe")
-    let g:html_clipboard_exe = "htmlClipboard.exe"
-endif
 if !exists("g:html_show_line_num")
     let g:html_show_line_num = 0
 endif
@@ -16,10 +13,6 @@ command -range=% -bar CodeToHtml call <SID>CopyHtmlClip(<line1>, <line2>, 0)
 function! <SID>CopyHtmlClip(start_line, end_line, show_linenr)
     if !has("win32") || !has("gui")
         echoe "only support windows gui version"
-    endif
-    if !filereadable(g:html_clipboard_exe)
-        echoe g:html_clipboard_exe . " doesn't exist"
-        return
     endif
     if &filetype == ''
         :exec "set filetype=" . input("set filetype:")
