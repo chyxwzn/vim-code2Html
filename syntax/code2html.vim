@@ -244,8 +244,8 @@ endif
 if has('python')
 python << EOF
 def HtmlClipboardInner():
-    import clipboard
-    return clipboard.HtmlClipboard()
+    import htmlclipboard
+    return htmlclipboard.HtmlClipboard()
 EOF
 else
     echom 'vim-code2html requires your Vim to be compiled with +python option!'
