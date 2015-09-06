@@ -9,11 +9,7 @@ Installation
 Usage
 =====
 ## Default
-convert to html without line number
-
- map <silent><leader>y :CodeToHtml<CR>
-
-convert to html with line number
-
- map <silent><leader>ny :NCodeToHtml<CR>
-
+* convert to html without line number
+    * `map <silent><leader>y :CodeToHtml<CR>`
+* convert to html with line number
+    * `map <silent><leader>ny :NCodeToHtml<CR>`
