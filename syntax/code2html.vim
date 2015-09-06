@@ -236,7 +236,33 @@ if g:html_show_line_num
 endif
 call extend(s:lines, s:code_lines)
 call add(s:lines, "</tr></table>")
-
 let @+ = join(s:lines, "")
-call system(g:html_clipboard_exe)
+
+let s:script_folder_path = escape(expand('<sfile>:p:h'), '\')
+function! s:SetPythonPath() abort
+    if has('python')
+        python import sys
+        python import vim
+        execute 'python sys.path.insert(0, "' . s:script_folder_path . '/../python")'
+    endif
+
+    return 1
+endfunction
+
+if s:SetPythonPath() != 1
+    echoe "Cannot set ${PATH} variable!"
+    finish
+endif
+
+if has('python')
+python << EOF
+def HtmlClipboardInner():
+    import clipboard
+    return clipboard.HtmlClipboard()
+EOF
+else
+    echom 'vim-code2html requires your Vim to be compiled with +python option!'
+endif
+python HtmlClipboardInner()
+
 let &l:foldenable = s:old_fen
