@@ -1,5 +1,5 @@
 # code2Html
-convert code to html in vim to keep original format when paste in OneNote or Word etc.
+convert code to html in vim to keep original format when paste in OneNote or Word etc. Need vim built with +python support.
 
 Installation
 ============
